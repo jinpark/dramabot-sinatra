@@ -72,11 +72,6 @@ post '/webhook' do
         reply = "#{username}: I :heart: you too!"
     end
 
-    if /\blove\b/.match(message)
-        username = params['user_name']
-        reply = "#{username}: I :heart: you too!"
-    end
-
     if first_word == '8ball'
         magic_answers = ["Duh",
                         "Hazy, try again",
