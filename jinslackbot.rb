@@ -72,25 +72,25 @@ post '/webhook' do
         reply = "#{username}: I :heart: you too!"
     end
 
-    if first_word == '8ball'
-        magic_answers = ["Duh",
-                        "Hazy, try again",
-                        "No way",
-                        "Awoooga",
-                        "We'll see",
-                        "Of course!",
-                        "Yawn...",
-                        "Yep.",
-                        "As If", 
-                        "Ask Me If I Care",
-                        "Dumb Question Ask Another", 
-                        "Forget About It"," Get A Clue", "In Your Dreams", "No, Not A Chance", 
-                        "Obviously", "Oh Please", "That's Ridiculous", "Well Maybe", "What Do You Think?", 
-                        "Whatever", "Who Cares?", "Yeah And I'm The Pope", "Yah Right",  
-                        "You Wish", "You've Got To Be Kidding...", "Go f*ck yourself"];
+    # if first_word == '8ball'
+    #     magic_answers = ["Duh",
+    #                     "Hazy, try again",
+    #                     "No way",
+    #                     "Awoooga",
+    #                     "We'll see",
+    #                     "Of course!",
+    #                     "Yawn...",
+    #                     "Yep.",
+    #                     "As If", 
+    #                     "Ask Me If I Care",
+    #                     "Dumb Question Ask Another", 
+    #                     "Forget About It"," Get A Clue", "In Your Dreams", "No, Not A Chance", 
+    #                     "Obviously", "Oh Please", "That's Ridiculous", "Well Maybe", "What Do You Think?", 
+    #                     "Whatever", "Who Cares?", "Yeah And I'm The Pope", "Yah Right",  
+    #                     "You Wish", "You've Got To Be Kidding...", "Go f*ck yourself"];
 
-        reply = magic_answers.sample
-    end 
+    #     reply = magic_answers.sample
+    # end 
 
     if reply
         Slack::Post.post reply.to_s, "##{params['channel_name']}"
