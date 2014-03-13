@@ -75,7 +75,7 @@ post '/webhook' do
         reply = "#{username}: I :heart: you too!"
     end
 
-    if firstword == 'lastfm'
+    if first_word == 'lastfm'
         lastfm = Lastfm.new(ENV['LASTFM_API_KEY'], ENV['LASTFM_API_SECRET'])
         if rest_of_message.strip().empty?
             user_name = params['user_name']
