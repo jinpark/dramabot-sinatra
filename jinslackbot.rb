@@ -4,9 +4,11 @@ require 'open-uri'
 require 'slack/post'
 require 'nokogiri'
 require 'active_support/all'
+require 'lastfm'
 
 require './date_helper'
 require './config'
+
 
 
 post '/webhook' do
@@ -18,6 +20,7 @@ post '/webhook' do
 
     message = params['text']
     first_word = message.split[1]
+    rest_of_message = message.split(' ')[1..-1].join(' ')
 
     if /\bweather\b/.match(message)
         weather_json = JSON.parse(RestClient.get("https://api.forecast.io/forecast/#{ENV['FORECAST_API_KEY']}/40.7436644,-73.985778"))
@@ -70,6 +73,23 @@ post '/webhook' do
     if /\blove\b/.match(message)
         username = params['user_name']
         reply = "#{username}: I :heart: you too!"
+    end
+
+    if firstword == 'lastfm'
+        lastfm = Lastfm.new(ENV['LASTFM_API_KEY'], ENV['LASTFM_API_SECRET'])
+        if rest_of_message.strip().empty?
+            user_name = params['user_name']
+        else
+            user_name = rest_of_message.strip()
+        end
+        begin
+            tracks = lastfm.get_recent_tracks(user: user_name)
+            artist = tracks.first['artist']['content']
+            name = tracks.first['name']
+            reply = "Your last played track is #{name} by #{artist}"
+        rescue
+            reply = "Something went wrong. Blame :robert:"
+        end
     end
 
     # if first_word == '8ball'

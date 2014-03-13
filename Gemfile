@@ -9,3 +9,5 @@ gem 'rest-client'
 gem 'slack-post'
 
 gem 'nokogiri'
+
+gem 'lastfm'
