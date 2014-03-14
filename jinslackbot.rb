@@ -90,8 +90,8 @@ post '/webhook' do
             artist = tracks.first['artist']['content']
             name = tracks.first['name']
             reply = "Your last played track is #{name} by #{artist}"
-        rescue exception -> e
-            reply = "Something went wrong. Blame :robert:"
+        rescue
+            reply = "Something went wrong. :("
         end
     end
 
