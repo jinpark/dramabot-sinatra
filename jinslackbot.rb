@@ -20,10 +20,11 @@ post '/webhook' do
         token: ENV['SLACK_TOKEN'],
         username: 'dramabot',
         icon_emoji: ':ghost:')
-
+    
     message = params['text']
     first_word = message.split[1]
     rest_of_message = message.split(' ')[1..-1].join(' ')
+    last_word = message.split.last
 
     if /\bweather\b/.match(message)
         weather_json = JSON.parse(RestClient.get("https://api.forecast.io/forecast/#{ENV['FORECAST_API_KEY']}/40.7436644,-73.985778"))
@@ -78,18 +79,21 @@ post '/webhook' do
         reply = "#{username}: I :heart: you too!"
     end
 
+    # lastfm
     if first_word == 'lastfm'
         lastfm = Lastfm.new(ENV['LASTFM_API_KEY'], ENV['LASTFM_API_SECRET'])
-        if rest_of_message.strip().empty?
+        if last_word == 'lastfm'
             user_name = params['user_name']
         else
-            user_name = rest_of_message.strip()
+            user_name = last_word
         end
         begin
             tracks = lastfm.user.get_recent_tracks(user: user_name)
             artist = tracks.first['artist']['content']
             name = tracks.first['name']
-            reply = "Your last played track is #{name} by #{artist}"
+            url = tracks.first['url']
+            reply = "Your last played track is #{name} by #{artist}
+                    #{url}"
         rescue
             reply = "Something went wrong. :("
         end
@@ -118,7 +122,6 @@ post '/webhook' do
     if reply
         Slack::Post.post reply.to_s, "##{params['channel_name']}"
     end
-
 
 end
 

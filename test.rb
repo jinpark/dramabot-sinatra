@@ -12,7 +12,7 @@ class JinSlackBot < Test::Unit::TestCase
   end
 
   def test_weather
-    post '/'  params={}
+    post '/'  params={"token"=>"", "team_id"=>"", "team_domain"=>"", "service_id"=>"", "channel_id"=>"", "channel_name"=>"bot", "timestamp"=>"1394805370.000014", "user_id"=>"", "user_name"=>"jin", "text"=>"dramabot lastfm jinp6301", "trigger_word"=>"dramabot"}
     assert last_response.ok?
     assert_equal 'Hello World', last_response.body
   end
