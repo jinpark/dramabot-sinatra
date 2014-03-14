@@ -9,6 +9,9 @@ require 'lastfm'
 require './date_helper'
 require './config'
 
+get '/' do
+    return 'Welcome to dramabot!'
+end
 
 
 post '/webhook' do
@@ -83,11 +86,11 @@ post '/webhook' do
             user_name = rest_of_message.strip()
         end
         begin
-            tracks = lastfm.get_recent_tracks(user: user_name)
+            tracks = lastfm.user.get_recent_tracks(user: user_name)
             artist = tracks.first['artist']['content']
             name = tracks.first['name']
             reply = "Your last played track is #{name} by #{artist}"
-        rescue
+        rescue exception -> e
             reply = "Something went wrong. Blame :robert:"
         end
     end
